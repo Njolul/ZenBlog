@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ZenBlog Bootstrap Template - Contact</title>
+  <title>FrikiStore-Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,6 +28,7 @@
   <!-- Template Main CSS Files -->
   <link href="assets/css/variables.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
   <!-- =======================================================
   * Template Name: ZenBlog
@@ -53,7 +54,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li class="dropdown"><a href="category.html"><span>Categories</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+          <li class="dropdown"><a href="#"><span>Categories</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
               <!--<li><a href="search-result.html">Search Result</a></li>
               <li><a href="#">Drop Down 1</a></li>-->
@@ -93,75 +94,68 @@
   </header><!-- End Header -->
 
   <main id="main">
-    <section id="contact" class="contact mb-5">
-      <div class="container" data-aos="fade-up">
 
-        <div class="row">
-          <div class="col-lg-12 text-center mb-5">
-            <h1 class="page-title">Contact us</h1>
-          </div>
-        </div>
+    <!-- ======= Formulario de inicio sesion ======= -->
+<body>
+    <section class="form-register">
+        <h4>Register</h4>
+  <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
+  <div id="nombres-error" class="error-message"></div>
+  <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
+  <div id="apellidos-error" class="error-message"></div>
+  <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
+  <div id="correo-error" class="error-message"></div>
+  <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
+  <div id="contrasena-error" class="error-message"></div>
+  <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
+  <input class="botons" type="submit" value="Registrar" onclick="validateForm()">
+  <p><a href="Login copy.html">¿Ya tengo Cuenta?</a></p>
+      </section>
+      
+      <script>
+        function validateForm() {
+          var nombres = document.getElementById("nombres").value;
+          var apellidos = document.getElementById("apellidos").value;
+          var correo = document.getElementById("correo").value;
+          var contrasena = document.getElementById("contrasena").value;
+          var errorMessages = "";
+        
+          if (nombres === "") {
+            document.getElementById("nombres-error").innerText = "Por favor ingrese su Nombre";
+            errorMessages += "Por favor ingrese su Nombre\n";
+          } else {
+            document.getElementById("nombres-error").innerText = "";
+          }
+        
+          if (apellidos === "") {
+            document.getElementById("apellidos-error").innerText = "Por favor ingrese su Apellido";
+            errorMessages += "Por favor ingrese su Apellido\n";
+          } else {
+            document.getElementById("apellidos-error").innerText = "";
+          }
+        
+          if (correo === "") {
+            document.getElementById("correo-error").innerText = "Por favor ingrese su Correo";
+            errorMessages += "Por favor ingrese su Correo\n";
+          } else {
+            document.getElementById("correo-error").innerText = "";
+          }
+        
+          if (contrasena === "") {
+            document.getElementById("contrasena-error").innerText = "Por favor ingrese su Contraseña";
+            errorMessages += "Por favor ingrese su Contraseña\n";
+          } else {
+            document.getElementById("contrasena-error").innerText = "";
+          }
+        
+          if (errorMessages !== "") {
+            alert(errorMessages);
+            return false;
+          }
+        }
+        </script>
 
-        <div class="row gy-4">
-
-          <div class="col-md-4">
-            <div class="info-item">
-              <i class="bi bi-geo-alt"></i>
-              <h3>Address</h3>
-              <address>Centenario 1879, 8370923 Santiago, Región Metropolitana</address>
-            </div>
-          </div><!-- End Info Item -->
-
-          <div class="col-md-4">
-            <div class="info-item info-item-borders">
-              <i class="bi bi-phone"></i>
-              <h3>Phone Number</h3>
-              <p><a href="tel:+155895548855">+(2) 2713 5510</a></p>
-            </div>
-          </div><!-- End Info Item -->
-
-          <div class="col-md-4">
-            <div class="info-item">
-              <i class="bi bi-envelope"></i>
-              <h3>Email</h3>
-              <p><a href="mailto:info@example.com">FrikiStore@gmail.com</a></p>
-            </div>
-          </div><!-- End Info Item -->
-
-        </div>
-
-        <div class="form mt-5">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-            <div class="row">
-              <div class="form-group col-md-6">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-              </div>
-              <div class="form-group col-md-6">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-            </div>
-            <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
-            </div>
-            <div class="text-center"><button type="submit">Send Message</button></div>
-          </form>
-        </div><!-- End Contact Form -->
-
-      </div>
-    </section>
-
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
+<footer id="footer" class="footer">
 
     <div class="footer-content">
       <div class="container">
@@ -171,7 +165,7 @@
             <h3 class="footer-heading">FrikiStore</h3>
             <!--<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid blanditiis omnis quae. Explicabo?</p>-->
             <p><a href="about.html" class="footer-link-more">Learn More</a></p>
-          </div>
+          </div>-
           <div class="col-6 col-lg-2">
             <h3 class="footer-heading">Navigation</h3>
             <ul class="footer-links list-unstyled">
@@ -183,6 +177,68 @@
               <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Contact</a></li>
             </ul>
           </div>
+           <!--<div class="col-6 col-lg-2">
+            <h3 class="footer-heading">Categories</h3>
+            <ul class="footer-links list-unstyled">
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
+
+            </ul>
+          </div>-->
+
+          <!--<div class="col-lg-4">
+            <h3 class="footer-heading">Recent Posts</h3>
+
+            <ul class="footer-links footer-blog-entry list-unstyled">
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+                    <span>5 Great Startup Tips for Female Founders</span>
+                  </div>
+                </a>
+              </li>
+
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
+                  </div>
+                </a>
+              </li>
+
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
+                  </div>
+                </a>
+              </li>
+
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
+                  </div>
+                </a>
+              </li>
+
+            </ul>
+
+          </div>-->
         </div>
       </div>
     </div>
@@ -235,7 +291,6 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
 </body>
 
 </html>
