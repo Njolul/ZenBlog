@@ -71,9 +71,7 @@
       </nav><!-- .navbar -->
 
       <div class="position-relative">
-        <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
-        <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
-        <a href="Login copy.html" class="mx-2"><span class="bi bi-person-fill"></span></a>
+        
 
         <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -108,7 +106,8 @@
   <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
   <div id="contrasena-error" class="error-message"></div>
   <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
-  <input class="botons" type="submit" value="Registrar" onclick="validateForm()">
+  <button class="botons" onclick="validateForm()">Iniciar Sesión</button>
+  <label id="success-label" class="success-message" style="display: none;">¡Te has registrado exitosamente!</label>
   <p><a href="Login copy.html">¿Ya tengo Cuenta?</a></p>
       </section>
       
@@ -137,6 +136,11 @@
           if (correo === "") {
             document.getElementById("correo-error").innerText = "Por favor ingrese su Correo";
             errorMessages += "Por favor ingrese su Correo\n";
+
+          } else if (!correo.includes("@")) {
+            document.getElementById("correo-error").innerText = "Por favor ingrese un correo electrónico válido";
+            errorMessages += "Por favor ingrese un correo electrónico válido\n";
+            
           } else {
             document.getElementById("correo-error").innerText = "";
           }
@@ -151,6 +155,9 @@
           if (errorMessages !== "") {
             alert(errorMessages);
             return false;
+          }else{
+            document.getElementById("success-label").style.display = "block";
+            return true;
           }
         }
         </script>

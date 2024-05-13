@@ -218,15 +218,28 @@
                         <input class="controls" type="text" id="exp" name="exp" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/([0-9]{2})" required><br>
                         <label for="cvv">CVV:</label><br>
                         <input class="controls" type="text" id="cvv" name="cvv" pattern="[0-9]{3,4}" required><br>
-                        <input class="botons" type="submit" value="Pagar">
+                        <input class="botons" type="button" value="Pagar" onclick="showConfirmation()">
+                         
+                        function showConfirmation() {
+
+                         alert("Compra exitosa. Gracias por tu compra!");
+                        }
+                    
                     </form>
                     </section>
+                    
                 </body>
                 </html>
             `);
             pagoWindow.document.close();
         }
     </script>
+    <script>
+        function showConfirmation() {
+
+         alert("Compra exitosa. Gracias por tu compra!");
+        }
+        </script>
 </body>
 
 

@@ -104,7 +104,9 @@
   <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
   <div id="contrasena-error" class="error-message"></div>
   <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
-  <input class="botons" type="submit" value="Iniciar Sesion" onclick="validateForm()">
+  <button class="botons" onclick="validateForm()">Iniciar Sesión</button>
+  <label id="success-label" class="success-message" style="display: none;">¡Has iniciado sesión exitosamente!</label>
+
   <p><a href="Login.html">¿no tienes cuenta?</a></p>
       </section>
       
@@ -114,10 +116,15 @@
           var contrasena = document.getElementById("contrasena").value;
           var errorMessages = "";
         
-        
+
           if (correo === "") {
             document.getElementById("correo-error").innerText = "Por favor ingrese su Correo";
             errorMessages += "Por favor ingrese su Correo\n";
+
+          } else if (!correo.includes("@")) {
+            document.getElementById("correo-error").innerText = "Por favor ingrese un correo electrónico válido";
+            errorMessages += "Por favor ingrese un correo electrónico válido\n";  
+
           } else {
             document.getElementById("correo-error").innerText = "";
           }
@@ -128,12 +135,16 @@
           } else {
             document.getElementById("contrasena-error").innerText = "";
           }
+
         
           if (errorMessages !== "") {
             alert(errorMessages);
             return false;
+          }else{
+            document.getElementById("success-label").style.display = "block";
+            return true;
           }
-        }
+        }   
         </script>
 
 <footer id="footer" class="footer">
