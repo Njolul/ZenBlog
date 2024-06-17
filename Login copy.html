@@ -97,55 +97,54 @@
 
     <!-- ======= Formulario de inicio sesion ======= -->
 <body>
-    <section class="form-register">
-        <h4>Iniciar sesion</h4>
-  <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
-  <div id="correo-error" class="error-message"></div>
-  <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
-  <div id="contrasena-error" class="error-message"></div>
-  <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
-  <button class="botons" onclick="validateForm()">Iniciar Sesión</button>
-  <label id="success-label" class="success-message" style="display: none;">¡Has iniciado sesión exitosamente!</label>
+  <section class="form-register">
+    <h4>Iniciar sesión</h4>
+    <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
+    <div id="correo-error" class="error-message"></div>
+    <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
+    <div id="contrasena-error" class="error-message"></div>
+    <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
+    <button class="botons" id="submit-button">Iniciar Sesión</button>
+    <label id="success-label" class="success-message" style="display: none;">¡Has iniciado sesión exitosamente!</label>
+    <p><a href="Login.html">¿no tienes cuenta?</a></p>
+</section>
 
-  <p><a href="Login.html">¿no tienes cuenta?</a></p>
-      </section>
-      
-      <script>
-        function validateForm() {
-          var correo = document.getElementById("correo").value;
-          var contrasena = document.getElementById("contrasena").value;
-          var errorMessages = "";
-        
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#submit-button').click(function(e) {
+            e.preventDefault();
+            var correo = $('#correo').val();
+            var contrasena = $('#contrasena').val();
+            var errorMessages = "";
 
-          if (correo === "") {
-            document.getElementById("correo-error").innerText = "Por favor ingrese su Correo";
-            errorMessages += "Por favor ingrese su Correo\n";
+            if (correo === "") {
+                $('#correo-error').text("Por favor ingrese su Correo");
+                errorMessages += "Por favor ingrese su Correo\n";
+            } else if (!correo.includes("@")) {
+                $('#correo-error').text("Por favor ingrese un correo electrónico válido");
+                errorMessages += "Por favor ingrese un correo electrónico válido\n";  
+            } else {
+                $('#correo-error').text("");
+            }
 
-          } else if (!correo.includes("@")) {
-            document.getElementById("correo-error").innerText = "Por favor ingrese un correo electrónico válido";
-            errorMessages += "Por favor ingrese un correo electrónico válido\n";  
+            if (contrasena === "") {
+                $('#contrasena-error').text("Por favor ingrese su Contraseña");
+                errorMessages += "Por favor ingrese su Contraseña\n";
+            } else {
+                $('#contrasena-error').text("");
+            }
 
-          } else {
-            document.getElementById("correo-error").innerText = "";
-          }
-        
-          if (contrasena === "") {
-            document.getElementById("contrasena-error").innerText = "Por favor ingrese su Contraseña";
-            errorMessages += "Por favor ingrese su Contraseña\n";
-          } else {
-            document.getElementById("contrasena-error").innerText = "";
-          }
+            if (errorMessages !== "") {
+                alert(errorMessages);
+            } else {
+                $('#success-label').show();
+                window.location.href = "index.html";  // Reemplaza "URL_DE_REDIRECCION" con la URL a la que deseas redirigir.
+            }
+        });
+    });
+</script>
 
-        
-          if (errorMessages !== "") {
-            alert(errorMessages);
-            return false;
-          }else{
-            document.getElementById("success-label").style.display = "block";
-            return true;
-          }
-        }   
-        </script>
 
 <footer id="footer" class="footer">
 

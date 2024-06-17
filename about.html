@@ -29,6 +29,14 @@
   <link href="assets/css/variables.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
 
+  <style>
+    #Map {
+      height: 400px; /* Ajusta la altura según sea necesario */
+      width: 30%; /* Asegura que el mapa ocupe todo el ancho disponible */
+      margin-top: 20px; /* Añade algo de espacio encima del mapa */
+    }
+  </style>
+
   <!-- =======================================================
   * Template Name: ZenBlog
   * Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
@@ -165,6 +173,7 @@
           </div>
           <div class="col-lg-4 text-center mb-5">
             <img src="assets/img/7.png" alt="" class="img-fluid rounded-circle w-50 mb-4">
+
             <h4>Liam Contreras</h4>
             <span class="d-block mb-3 text-uppercase"></span>
             
@@ -228,6 +237,10 @@
               <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Contact</a></li>
             </ul>
           </div>
+
+          <div id="Map" class="col-lg-6">
+            <!-- Aquí se inicializa el mapa -->
+          </div>
         </div>
       </div>
     </div>
@@ -281,6 +294,32 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <!-- Custom Map Script -->
+  <script>
+    // Función para inicializar el mapa
+    function initMap() {
+      // Coordenadas de ejemplo (puedes cambiarlas por las de tu ubicación real)
+      var myLatLng = { lat: -33.476062, lng: -70.656640 };
+
+      // Crea un mapa en el contenedor con id "Map"
+      var map = new google.maps.Map(document.getElementById('Map'), {
+        center: myLatLng,
+        zoom: 15 // Ajusta el nivel de zoom según sea necesario
+      });
+
+      // Crea un marcador en la posición especificada
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'FrikiStore' // Título del marcador (puedes cambiarlo)
+      });
+    }
+  </script>
+
+  <!-- Google Maps API -->
+  <!-- Asegúrate de reemplazar 'YOUR_API_KEY' con tu clave de API de Google Maps -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdv1mONGkKORSWGCcEe1L7p5atacKC0fQ&callback=initMap" async defer></script>
+
 </body>
 
-</html>
+</html>            
