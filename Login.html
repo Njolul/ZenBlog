@@ -68,7 +68,7 @@
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-      </nav><!-- .navbar -->
+      </nav><!--.navbar -->
 
       <div class="position-relative">
         
@@ -94,248 +94,127 @@
   <main id="main">
 
     <!-- ======= Formulario de inicio sesion ======= -->
-<body>
-  <section class="form-register">
-    <h4>Registrarse</h4>
-    <form id="registration-form" method="post" action="registrar_usuario.php">
-        <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
-        <div id="nombres-error" class="error-message"></div>
-        <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
-        <div id="apellidos-error" class="error-message"></div>
-        <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
-        <div id="correo-error" class="error-message"></div>
-        <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
-        <div id="contrasena-error" class="error-message"></div>
-        <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
-        <button class="botons" type="submit">Registrarse</button>
-    </form>
-    <label id="success-label" class="success-message" style="display: none;">¡Te has registrado exitosamente!</label>
-    <p><a href="Login copy.html">¿Ya tengo Cuenta?</a></p>
-</section>
+    <body>
+      <section class="form-register">
+        <h4>Registrarse</h4>
+        <form id="registration-form" method="post" action="registrar_usuario.php">
+          <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
+          <div id="nombres-error" class="error-message"></div>
+          <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
+          <div id="apellidos-error" class="error-message"></div>
+          <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
+          <div id="correo-error" class="error-message"></div>
+          <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
+          <div id="contrasena-error" class="error-message"></div>
+          <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
+          <button class="botons" id="submit-button" type="submit">Registrarse</button>
+        </form>
+        <div id="error-messages" class="error-message"></div>
+        <div id="success-messages" class="success-message"></div>
+        <p><a href="Login copy.html">¿Ya tengo Cuenta?</a></p>
+      </section>
 
-<footer id="footer" class="footer">
+      <footer id="footer" class="footer">
 
-    <div class="footer-content">
-      <div class="container">
+        <!-- Footer content -->
 
-        <div class="row g-5">
-          <div class="col-lg-4">
-            <h3 class="footer-heading">FrikiStore</h3>
-            <!--<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid blanditiis omnis quae. Explicabo?</p>-->
-            <p><a href="about.html" class="footer-link-more">Learn More</a></p>
-          </div>-
-          <div class="col-6 col-lg-2">
-            <h3 class="footer-heading">Navigation</h3>
-            <ul class="footer-links list-unstyled">
-              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Home</a></li>
-              <li><a href="category copy 4.html"><i class="bi bi-chevron-right"></i>merch</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> cartas</a></li>
-              <li><a href="category copy 2.html"><i class="bi bi-chevron-right"></i> juegos y juegos de mesa</a></li>
-              <li><a href="category copy.html"><i class="bi bi-chevron-right"></i> figuras</a></li>
-              <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Contact</a></li>
-            </ul>
-          </div>
-           <!--<div class="col-6 col-lg-2">
-            <h3 class="footer-heading">Categories</h3>
-            <ul class="footer-links list-unstyled">
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
+      </footer>
 
-            </ul>
-          </div>-->
+      <!-- Vendor JS Files -->
+      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+      <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+      <script src="assets/vendor/aos/aos.js"></script>
+      <script src="assets/vendor/php-email-form/validate.js"></script>
 
-          <!--<div class="col-lg-4">
-            <h3 class="footer-heading">Recent Posts</h3>
+      <!-- Template Main JS File -->
+      <script src="assets/js/main.js"></script>
 
-            <ul class="footer-links footer-blog-entry list-unstyled">
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>5 Great Startup Tips for Female Founders</span>
-                  </div>
-                </a>
-              </li>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          $('#submit-button').click(function(e) {
+            e.preventDefault();
 
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
-                  </div>
-                </a>
-              </li>
+            var nombres = $.trim($('#nombres').val());
+            var apellidos = $.trim($('#apellidos').val());
+            var correo = $.trim($('#correo').val());
+            var contrasena = $.trim($('#contrasena').val());
 
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
-                  </div>
-                </a>
-              </li>
+            // Validación básica del lado del cliente
+            var errorMessages = "";
 
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
-                  </div>
-                </a>
-              </li>
+ if (nombres === "") {
+  $('#nombres-error').text("Por favor ingrese su Nombre");
+} else if (!/^[a-zA-Z]+$/.test(nombres)) {
+  $('#nombres-error').text("Solo se permiten letras en el nombre");
+} else {
+  $('#nombres-error').text("");
+}
 
-            </ul>
+if (apellidos === "") {
+  $('#apellidos-error').text("Por favor ingrese su Apellido");
+} else if (!/^[a-zA-Z]+$/.test(apellidos)) {
+  $('#apellidos-error').text("Solo se permiten letras en el apellido");
+} else {
+  $('#apellidos-error').text("");
+}
 
-          </div>-->
-        </div>
-      </div>
-    </div>
+if (correo === "") {
+  $('#correo-error').text("Por favor ingrese su Correo");
+} else if (!isValidEmail(correo)) {
+  $('#correo-error').text("Por favor ingrese un correo electrónico válido");
+} else {
+  $('#correo-error').text("");
+}
 
-    <div class="footer-legal">
-      <div class="container">
+if (contrasena === "") {
+  $('#contrasena-error').text("Por favor ingrese su Contraseña");
+} else {
+  $('#contrasena-error').text("");
+}
 
-        <div class="row justify-content-between">
-          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            <div class="copyright">
-              © Copyright <strong><span>ZenBlog</span></strong>. All Rights Reserved
-            </div>
+// Si hay errores, mostramos mensaje de error en el elemento HTML
+if ($('#nombres-error').text() !== "" || $('#apellidos-error').text() !== "" || $('#correo-error').text() !== "" || $('#contrasena-error').text() !== "") {
+  $('#error-messages').text("Por favor revise los campos con errores");
+  return false; // Detiene la ejecución aquí si hay errores y evita el envío del formulario
+}
 
-            <div class="credits">
-              <!-- All the links in the footer should remain intact. -->
-              <!-- You can delete the links only if you purchased the pro version. -->
-              <!-- Licensing information: https://bootstrapmade.com/license/ -->
-              <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
-              Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
+            // Enviar datos usando AJAX
+            $.ajax({
+      type: 'POST',
+      url: 'registrar_usuario.php', // Archivo PHP que manejará la inserción
+      data: {
+        nombres: nombres,
+        apellidos: apellidos,
+        correo: correo,
+        contrasena: contrasena
+      },
+      dataType: 'json', // Tipo de datos esperados del servidor
+      encode: true
+    })
+    .done(function(data) {
+      if (data.success) {
+        $('#success-messages').text(data.message).show();
+        window.location.href = 'login copy.html'; // Redirigir a la vista de éxito
+      } else {
+        $('#error-messages').text(`Error al registrar usuario: ${data.message}`);
+      }
+    })
+    .fail(function(error) {
+      $('#error-messages').text(`Error en la solicitud AJAX: ${error.statusText}`);
+    });
 
-          </div>
-
-          <div class="col-md-6">
-            <div class="social-links mb-3 mb-lg-0 text-center text-md-end">
-              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-
-  </footer>
-
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-   $(document).ready(function() {
-            $('#submit-button').click(function(e) {
-                e.preventDefault();
-
-                var nombres = $('#nombres').val().trim();
-                var apellidos = $('#apellidos').val().trim();
-                var correo = $('#correo').val().trim();
-                var contrasena = $('#contrasena').val().trim();
-
-                // Validación básica del lado del cliente
-                var errorMessages = "";
-
-                if (nombres === "") {
-                    $('#nombres-error').text("Por favor ingrese su Nombre");
-                    errorMessages += "Por favor ingrese su Nombre\n";
-                } else {
-                    $('#nombres-error').text("");
-                }
-
-                if (apellidos === "") {
-                    $('#apellidos-error').text("Por favor ingrese su Apellido");
-                    errorMessages += "Por favor ingrese su Apellido\n";
-                } else {
-                    $('#apellidos-error').text("");
-                }
-
-                if (correo === "") {
-                    $('#correo-error').text("Por favor ingrese su Correo");
-                    errorMessages += "Por favor ingrese su Correo\n";
-                } else if (!isValidEmail(correo)) {
-                    $('#correo-error').text("Por favor ingrese un correo electrónico válido");
-                    errorMessages += "Por favor ingrese un correo electrónico válido\n";
-                } else {
-                    $('#correo-error').text("");
-                }
-
-                if (contrasena === "") {
-                    $('#contrasena-error').text("Por favor ingrese su Contraseña");
-                    errorMessages += "Por favor ingrese su Contraseña\n";
-                } else {
-                    $('#contrasena-error').text("");
-                }
-
-                // Si hay errores, mostramos alerta y no procedemos con AJAX
-                if (errorMessages !== "") {
-                    alert(errorMessages);
-                    return false; // Detiene la ejecución aquí si hay errores
-                }
-
-                // Enviar datos usando AJAX
-                $.ajax({
-                    type: 'POST',
-                    url: 'registrar_usuario.php', // Archivo PHP que manejará la inserción
-                    data: {
-                        nombres: nombres,
-                        apellidos: apellidos,
-                        correo: correo,
-                        contrasena: contrasena
-                    },
-                    dataType: 'json', // Tipo de datos esperados del servidor
-                    encode: true
-                })
-                .done(function(data) {
-                    // Manejar la respuesta del servidor
-                    if (data.success) {
-                        $('#success-label').text(data.message).show();
-                    } else {
-                        alert('Error al registrar usuario: ' + data.message);
-                    }
-                })
-                .fail(function(error) {
-                    alert('Error en la solicitud AJAX: ' + error.statusText);
-                });
-            });
-        });
+    return false; // Evitar que el formulario sea enviado por defecto
+  });
+});
 
         // Función auxiliar para validar el formato de correo electrónico
         function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
-
-  </script>
-  
-  
-</body>
+        
+      </script>
+    </body>
 
 </html>

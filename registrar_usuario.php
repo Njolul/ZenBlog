@@ -1,8 +1,8 @@
 <?php
-include 'conexion.php'; 
+include 'conexion.php';
 
 // Verificar que se reciben todos los datos necesarios
-if(isset($_POST['nombres'], $_POST['apellidos'], $_POST['correo'], $_POST['contrasena'])) {
+if (isset($_POST['nombres'], $_POST['apellidos'], $_POST['correo'], $_POST['contrasena'])) {
     // Sanitizar y asignar los valores recibidos
     $nombres = $_POST['nombres'];
     $apellidos = $_POST['apellidos'];
@@ -10,42 +10,74 @@ if(isset($_POST['nombres'], $_POST['apellidos'], $_POST['correo'], $_POST['contr
     $contrasena = $_POST['contrasena'];
 
     // Verificar si algún campo está vacío
-    if(empty($nombres) || empty($apellidos) || empty($correo) || empty($contrasena)) {
+    $errors = array();
+    if (empty($nombres)) {
+        $errors[] = array('field' => 'nombres', 'message' => 'Por favor ingrese su nombre');
+    }
+    if (empty($apellidos)) {
+        $errors[] = array('field' => 'apellidos', 'message' => 'Por favor ingrese su apellido');
+    }
+    if (empty($correo)) {
+        $errors[] = array('field' => 'correo', 'message' => 'Por favor ingrese su correo electrónico');
+    }
+    if (empty($contrasena)) {
+        $errors[] = array('field' => 'contrasena', 'message' => 'Por favor ingrese su contraseña');
+    }
+
+    if (!empty($errors)) {
         $response = array(
             'success' => false,
-            'message' => 'Todos los campos son obligatorios.'
+            'message' => 'Error: ',
+            'errors' => $errors
         );
     } else {
-        // Preparar la consulta SQL con sentencia preparada
-        $sql = "INSERT INTO usuarios (nombres, apellidos, correo, contrasena) VALUES (?, ?, ?, ?)";
-        
-        // Preparar la sentencia
+        // Verificar si el correo electrónico ya existe en la base de datos
+        $sql = "SELECT * FROM usuarios WHERE correo = ?";
         $stmt = $conexion->prepare($sql);
-        
-        // Vincular parámetros
-        $stmt->bind_param("ssss", $nombres, $apellidos, $correo, $contrasena);
-        
-        // Ejecutar la sentencia
-        if ($stmt->execute()) {
-            $response = array(
-                'success' => true,
-                'message' => '¡Te has registrado exitosamente!'
-            );
-        } else {
+        $stmt->bind_param("s", $correo);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
             $response = array(
                 'success' => false,
-                'message' => 'Error al registrar usuario: ' . $stmt->error
+                'message' => 'Error: El correo electrónico ya existe en la base de datos',
+                'error_type' => 'correo_existe'
             );
-        }
+        } else {
+            // Preparar la consulta SQL con sentencia preparada
+            $sql = "INSERT INTO usuarios (nombres, apellidos, correo, contrasena) VALUES (?, ?, ?, ?)";
+            
+            // Preparar la sentencia
+            $stmt = $conexion->prepare($sql);
+            
+            // Vincular parámetros
+            $stmt->bind_param("ssss", $nombres, $apellidos, $correo, $contrasena);
+            
+            // Ejecutar la sentencia
+            if ($stmt->execute()) {
+                $response = array(
+                    'success' => true,
+                    'message' => '¡Te has registrado exitosamente!'
+                );
+            } else {
+                $response = array(
+                    'success' => false,
+                    'message' => 'Error al registrar usuario: ' . $stmt->error,
+                    'error_type' => 'bd_error'
+                );
+            }
 
-        // Cerrar la sentencia preparada
-        $stmt->close();
+            // Cerrar la sentencia preparada
+            $stmt->close();
+        }
     }
 } else {
     // Enviar un mensaje de error si no se reciben todos los datos esperados
     $response = array(
         'success' => false,
-        'message' => 'Error: Todos los campos son obligatorios.'
+        'message' => 'Error: Todos los campos son obligatorios.',
+        'error_type' => 'campo_vacio'
     );
 }
 
