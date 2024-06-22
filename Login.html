@@ -97,72 +97,21 @@
 <body>
   <section class="form-register">
     <h4>Registrarse</h4>
-    <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
-    <div id="nombres-error" class="error-message"></div>
-    <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
-    <div id="apellidos-error" class="error-message"></div>
-    <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
-    <div id="correo-error" class="error-message"></div>
-    <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
-    <div id="contrasena-error" class="error-message"></div>
-    <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
-    <button class="botons" id="submit-button">Registrarse</button>
+    <form id="registration-form" method="post" action="registrar_usuario.php">
+        <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
+        <div id="nombres-error" class="error-message"></div>
+        <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
+        <div id="apellidos-error" class="error-message"></div>
+        <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
+        <div id="correo-error" class="error-message"></div>
+        <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
+        <div id="contrasena-error" class="error-message"></div>
+        <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
+        <button class="botons" type="submit">Registrarse</button>
+    </form>
     <label id="success-label" class="success-message" style="display: none;">¡Te has registrado exitosamente!</label>
     <p><a href="Login copy.html">¿Ya tengo Cuenta?</a></p>
 </section>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#submit-button').click(function(e) {
-            e.preventDefault();
-            var nombres = $('#nombres').val();
-            var apellidos = $('#apellidos').val();
-            var correo = $('#correo').val();
-            var contrasena = $('#contrasena').val();
-            var errorMessages = "";
-
-            if (nombres === "") {
-                $('#nombres-error').text("Por favor ingrese su Nombre");
-                errorMessages += "Por favor ingrese su Nombre\n";
-            } else {
-                $('#nombres-error').text("");
-            }
-
-            if (apellidos === "") {
-                $('#apellidos-error').text("Por favor ingrese su Apellido");
-                errorMessages += "Por favor ingrese su Apellido\n";
-            } else {
-                $('#apellidos-error').text("");
-            }
-
-            if (correo === "") {
-                $('#correo-error').text("Por favor ingrese su Correo");
-                errorMessages += "Por favor ingrese su Correo\n";
-            } else if (!correo.includes("@")) {
-                $('#correo-error').text("Por favor ingrese un correo electrónico válido");
-                errorMessages += "Por favor ingrese un correo electrónico válido\n";
-            } else {
-                $('#correo-error').text("");
-            }
-
-            if (contrasena === "") {
-                $('#contrasena-error').text("Por favor ingrese su Contraseña");
-                errorMessages += "Por favor ingrese su Contraseña\n";
-            } else {
-                $('#contrasena-error').text("");
-            }
-
-            if (errorMessages !== "") {
-                alert(errorMessages);
-            } else {
-                $('#success-label').show();
-                window.location.href = "index.html";
-            }
-        });
-    });
-</script>
-
 
 <footer id="footer" class="footer">
 
@@ -300,6 +249,93 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+   $(document).ready(function() {
+            $('#submit-button').click(function(e) {
+                e.preventDefault();
+
+                var nombres = $('#nombres').val().trim();
+                var apellidos = $('#apellidos').val().trim();
+                var correo = $('#correo').val().trim();
+                var contrasena = $('#contrasena').val().trim();
+
+                // Validación básica del lado del cliente
+                var errorMessages = "";
+
+                if (nombres === "") {
+                    $('#nombres-error').text("Por favor ingrese su Nombre");
+                    errorMessages += "Por favor ingrese su Nombre\n";
+                } else {
+                    $('#nombres-error').text("");
+                }
+
+                if (apellidos === "") {
+                    $('#apellidos-error').text("Por favor ingrese su Apellido");
+                    errorMessages += "Por favor ingrese su Apellido\n";
+                } else {
+                    $('#apellidos-error').text("");
+                }
+
+                if (correo === "") {
+                    $('#correo-error').text("Por favor ingrese su Correo");
+                    errorMessages += "Por favor ingrese su Correo\n";
+                } else if (!isValidEmail(correo)) {
+                    $('#correo-error').text("Por favor ingrese un correo electrónico válido");
+                    errorMessages += "Por favor ingrese un correo electrónico válido\n";
+                } else {
+                    $('#correo-error').text("");
+                }
+
+                if (contrasena === "") {
+                    $('#contrasena-error').text("Por favor ingrese su Contraseña");
+                    errorMessages += "Por favor ingrese su Contraseña\n";
+                } else {
+                    $('#contrasena-error').text("");
+                }
+
+                // Si hay errores, mostramos alerta y no procedemos con AJAX
+                if (errorMessages !== "") {
+                    alert(errorMessages);
+                    return false; // Detiene la ejecución aquí si hay errores
+                }
+
+                // Enviar datos usando AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: 'registrar_usuario.php', // Archivo PHP que manejará la inserción
+                    data: {
+                        nombres: nombres,
+                        apellidos: apellidos,
+                        correo: correo,
+                        contrasena: contrasena
+                    },
+                    dataType: 'json', // Tipo de datos esperados del servidor
+                    encode: true
+                })
+                .done(function(data) {
+                    // Manejar la respuesta del servidor
+                    if (data.success) {
+                        $('#success-label').text(data.message).show();
+                    } else {
+                        alert('Error al registrar usuario: ' + data.message);
+                    }
+                })
+                .fail(function(error) {
+                    alert('Error en la solicitud AJAX: ' + error.statusText);
+                });
+            });
+        });
+
+        // Función auxiliar para validar el formato de correo electrónico
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+  </script>
+  
+  
 </body>
 
 </html>
