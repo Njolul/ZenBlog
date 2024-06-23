@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/lopos.jpg" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -64,7 +64,7 @@
               <li><a href="category copy 2.html">Juegos y Juegos de mesa</a></li>
             </ul>
           </li>
-
+          <li><a href="perfil.html">Perfil</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -99,50 +99,90 @@
 <body>
   <section class="form-register">
     <h4>Iniciar sesión</h4>
-    <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
-    <div id="correo-error" class="error-message"></div>
-    <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
-    <div id="contrasena-error" class="error-message"></div>
-    <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
-    <button class="botons" id="submit-button">Iniciar Sesión</button>
-    <label id="success-label" class="success-message" style="display: none;">¡Has iniciado sesión exitosamente!</label>
-    <p><a href="Login.html">¿no tienes cuenta?</a></p>
-</section>
+    <form id="login-form" method="post" action="login_usuario.php">
+      <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
+      <div id="correo-error" class="error-message"></div>
+      <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
+      <div id="contrasena-error" class="error-message"></div>
+      <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
+      <button class="botons" id="submit-button" type="submit">Iniciar Sesión</button>
+      <label id="success-label" class="success-message" style="display: none;">¡Has iniciado sesión exitosamente!</label>
+      <p><a href="Login.html">¿No tienes cuenta?</a></p>
+    </form>
+  </section>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#submit-button').click(function(e) {
-            e.preventDefault();
-            var correo = $('#correo').val();
-            var contrasena = $('#contrasena').val();
-            var errorMessages = "";
+  $(document).ready(function() {
+  $('#login-form').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+    var errores = {};
 
-            if (correo === "") {
-                $('#correo-error').text("Por favor ingrese su Correo");
-                errorMessages += "Por favor ingrese su Correo\n";
-            } else if (!correo.includes("@")) {
-                $('#correo-error').text("Por favor ingrese un correo electrónico válido");
-                errorMessages += "Por favor ingrese un correo electrónico válido\n";  
-            } else {
-                $('#correo-error').text("");
-            }
+    // Verificar campos vacíos
+    if ($('#correo').val() == '') {
+      errores.correo = 'Por favor ingrese su correo electrónico';
+    }
+    if ($('#contrasena').val() == '') {
+      errores.contrasena = 'Por favor ingrese su contraseña';
+    }
 
-            if (contrasena === "") {
-                $('#contrasena-error').text("Por favor ingrese su Contraseña");
-                errorMessages += "Por favor ingrese su Contraseña\n";
-            } else {
-                $('#contrasena-error').text("");
-            }
+    // Verificar formato de correo electrónico
+    if ($('#correo').val() != '' && !validateEmail($('#correo').val())) {
+      errores.correo = 'Por favor ingrese un correo electrónico válido';
+    }
 
-            if (errorMessages !== "") {
-                alert(errorMessages);
-            } else {
-                $('#success-label').show();
-                window.location.href = "index.html";  // Reemplaza "URL_DE_REDIRECCION" con la URL a la que deseas redirigir.
-            }
-        });
-    });
+    // Mostrar errores
+    if (Object.keys(errores).length > 0) {
+      $.each(errores, function(field, message) {
+        $('#' + field + '-error').text(message);
+      });
+    } else {
+      // Enviar formulario si no hay errores
+      console.log('Enviando solicitud AJAX:', formData);
+$.ajax({
+  type: 'POST',
+  url: 'login_usuario.php',
+  data: formData,
+  dataType: 'json',
+  success: function(response) {
+    console.log('Respuesta del servidor:', response);
+    if (response.success) {
+      console.log('Autenticación exitosa');
+      console.log('Sesión configurada:', response.session);
+      window.location.href = 'index.html';
+    } else {
+      console.log('Errores:', response.errors);
+      // Mostrar errores del servidor
+      switch (response.error_type) {
+        case 'contrasena_incorrecta':
+          $('#contrasena-error').text('Contraseña incorrecta');
+          break;
+        case 'correo_incorrecto':
+          $('#correo-error').text('Correo electrónico incorrecto');
+          break;
+        default:
+          $.each(response.errors, function(index, error) {
+            $('#' + error.field + '-error').text(error.message);
+          });
+      }
+    }
+  },
+  error: function(xhr, status, error) {
+    console.log('Error del servidor:', error);
+    // Mostrar mensaje de error del servidor
+    $('#error-server').text('Error del servidor: ' + error);
+  }
+});
+    }
+  });
+
+  // Función para validar formato de correo electrónico
+  function validateEmail(email) {
+    var re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,64}$/;
+    return re.test(email);
+  }
+});
 </script>
 
 

@@ -31,46 +31,31 @@ if (isset($_POST['nombres'], $_POST['apellidos'], $_POST['correo'], $_POST['cont
             'errors' => $errors
         );
     } else {
-        // Verificar si el correo electrónico ya existe en la base de datos
-        $sql = "SELECT * FROM usuarios WHERE correo = ?";
+        // Preparar la consulta SQL con sentencia preparada
+        $sql = "INSERT INTO usuarios (nombres, apellidos, correo, contrasena) VALUES (?, ?, ?, ?)";
+        
+        // Preparar la sentencia
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("s", $correo);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
+        
+        // Vincular parámetros
+        $stmt->bind_param("ssss", $nombres, $apellidos, $correo, $contrasena);
+        
+        // Ejecutar la sentencia
+        if ($stmt->execute()) {
             $response = array(
-                'success' => false,
-                'message' => 'Error: El correo electrónico ya existe en la base de datos',
-                'error_type' => 'correo_existe'
+                'success' => true,
+                'message' => '¡Te has registrado exitosamente!'
             );
         } else {
-            // Preparar la consulta SQL con sentencia preparada
-            $sql = "INSERT INTO usuarios (nombres, apellidos, correo, contrasena) VALUES (?, ?, ?, ?)";
-            
-            // Preparar la sentencia
-            $stmt = $conexion->prepare($sql);
-            
-            // Vincular parámetros
-            $stmt->bind_param("ssss", $nombres, $apellidos, $correo, $contrasena);
-            
-            // Ejecutar la sentencia
-            if ($stmt->execute()) {
-                $response = array(
-                    'success' => true,
-                    'message' => '¡Te has registrado exitosamente!'
-                );
-            } else {
-                $response = array(
-                    'success' => false,
-                    'message' => 'Error al registrar usuario: ' . $stmt->error,
-                    'error_type' => 'bd_error'
-                );
-            }
-
-            // Cerrar la sentencia preparada
-            $stmt->close();
+            $response = array(
+                'success' => false,
+                'message' => 'Error al registrar usuario: ' . $stmt->error,
+                'error_type' => 'bd_error'
+            );
         }
+
+        // Cerrar la sentencia preparada
+        $stmt->close();
     }
 } else {
     // Enviar un mensaje de error si no se reciben todos los datos esperados
