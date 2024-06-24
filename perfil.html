@@ -281,6 +281,56 @@
                 font-size: 1.3rem;
             }
             
+            .toggle-arrow {
+    cursor: pointer;
+    user-select: none;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-arrow.collapsed {
+    transform: rotate(90deg);
+}
+
+.historial-compras {
+    margin-bottom: 20px; /* Espacio entre la sección de historial y el siguiente contenido */
+}
+
+.lista-compras {
+    display: none; /* Ocultar la lista de compras por defecto */
+}
+
+.lista-compras.collapsed {
+    display: block; /* Mostrar la lista de compras cuando no tiene la clase 'collapsed' */
+    margin-top: 10px; /* Espacio entre el título y la lista de compras */
+}
+
+.lista-compras .historial-compra {
+    margin-bottom: 15px; /* Espacio entre compras individuales */
+    padding: 10px;
+    border: 1px solid #ddd; /* Borde alrededor de cada compra */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Fondo de cada compra */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.lista-compras .historial-compra p {
+    margin-bottom: 5px; /* Espacio entre elementos dentro de la compra */
+}
+
+.lista-compras .historial-compra ul {
+    margin-bottom: 5px;
+}
+
+.lista-compras .historial-compra ul li {
+    list-style-type: none; /* Eliminar viñetas de la lista de productos */
+    padding: 5px 0; /* Espacio entre productos */
+}
+
+.lista-compras .historial-compra ul li:before {
+    content: "•"; /* Viñeta personalizada */
+    margin-right: 5px; /* Espacio entre viñeta y texto */
+}
             
             /* adactacion a dispositivos */
             @media (max-width: 750px) {
@@ -309,6 +359,7 @@
                     margin-left: 1rem;
                     margin-top: 0;
                 }
+
             }
             </style>
                 
@@ -335,13 +386,20 @@
                                 <li><i class="icono fas fa-envelope"></i> Correo electrónico: <span id="correoUsuario"></span></li>
                                 <li><i class="icono fas fa-lock"></i> Contraseña: *****</li>
                             </ul>
-                        </div>
-                        <div class="historial-compras">
-                            <h3>Historial de Compras</h3>
-                            <div id="listaCompras" class="lista-compras">
-                                <!-- Aquí se añadirán dinámicamente las compras -->
+                            <br>
+                            <br>   
+                            <div class="historial-compras">
+                                <h3>
+                                    <span id="toggleHistorial" class="toggle-arrow">▶</span>
+                                    Historial de Compras
+                                </h3>
+                                <div id="listaCompras" class="lista-compras">
+                                    <!-- Aquí se añadirán dinámicamente las compras -->
+                                </div>
                             </div>
+
                         </div>
+                        
                     </div>
                 </section>
             

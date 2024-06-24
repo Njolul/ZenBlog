@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Obtener el elemento de la flecha para el toggle
+    var toggleHistorial = document.getElementById('toggleHistorial');
+
+    // Agregar un event listener para alternar la clase
+    toggleHistorial.addEventListener('click', function() {
+        var listaCompras = document.getElementById('listaCompras');
+
+        // Alternar la clase 'collapsed' en el elemento listaCompras
+        listaCompras.classList.toggle('collapsed');
+    });
+
     // Cargar historial de compras al cargar la página
     cargarHistorialCompras();
 });
@@ -12,7 +23,6 @@ function cargarHistorialCompras() {
             return response.json();
         })
         .then(function(data) {
-            // Verificar que data.historialCompras exista y sea un array
             if (Array.isArray(data.historialCompras)) {
                 mostrarHistorialCompras(data.historialCompras);
             } else {
@@ -26,7 +36,7 @@ function cargarHistorialCompras() {
 }
 
 function mostrarHistorialCompras(historialCompras) {
-    var historialContainer = document.getElementById('listaCompras'); // Cambia 'historialCompras' por 'listaCompras' si corresponde
+    var historialContainer = document.getElementById('listaCompras');
 
     if (!historialContainer) {
         console.error('No se encontró el contenedor para el historial de compras');
