@@ -1,36 +1,37 @@
 <?php
+session_start();
 include 'conexion.php';
 
-
-$data = json_decode(file_get_contents("php://input"), true);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $data['username'];
-    $cardNumber = $data['card_number'];
-    $expiryDate = $data['expiry_date'];
-    $cvv = $data['cvv'];
-    $cart = $data['cart'];
-    $total = $data['total'];
-
-    foreach ($cart as $item) {
-        $doctorName = $item['doctor_name'];
-        $price = $item['price'];
-        $quantity = $item['quantity'];
-        $totalPrice = $price * $quantity;
-
-
-        $stmt = $conn->prepare("INSERT INTO orders (username, doctor_name, doctor_price, quantity, total_price, card_number, expiry_date, cvv) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssiiisss", $username, $doctorName, $price, $quantity, $totalPrice, $cardNumber, $expiryDate, $cvv);
-
-
-        if (!$stmt->execute()) {
-            echo "fail";
-            exit;
-        }
-    }
-
-    echo "success";
+// Verificar si hay una sesión activa
+if (!isset($_SESSION['usuario_id'])) {
+    header('HTTP/1.1 401 Unauthorized');
+    exit();
 }
 
-$conn->close();
+// Obtener datos de la solicitud
+$data = json_decode(file_get_contents('php://input'), true);
+
+// Preparar los datos para insertar en la base de datos
+$usuario_id = $_SESSION['usuario_id'];
+$productos = json_encode($data['productos']); // Convertir array de productos a JSON
+$precioTotal = $data['precioTotal'];
+$fecha = date('Y-m-d H:i:s'); // Obtener fecha actual
+
+// Preparar la consulta SQL para insertar la compra
+$query = "INSERT INTO compras (usuario_id, productos, precio, fecha) VALUES (?, ?, ?, ?)";
+$stmt = $conexion->prepare($query);
+$stmt->bind_param("isds", $usuario_id, $productos, $precioTotal, $fecha);
+
+// Ejecutar la consulta
+if ($stmt->execute()) {
+    $response = array('success' => true, 'message' => 'Compra guardada correctamente');
+} else {
+    $response = array('success' => false, 'message' => 'Error al guardar la compra: ' . $stmt->error);
+}
+
+// Cerrar la conexión y devolver la respuesta en JSON
+$stmt->close();
+$conexion->close();
+header('Content-Type: application/json');
+echo json_encode($response);
 ?>

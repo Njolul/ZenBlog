@@ -30,14 +30,14 @@ function ready() {
         button.addEventListener('click', restarCantidad);
     }
 
-    // Agregamos funcionalidad al boton Agregar al carrito
+    // Agregamos funcionalidad al boton "Agregar al carrito"
     var botonesAgregarAlCarrito = document.getElementsByClassName('boton-item');
     for (var i = 0; i < botonesAgregarAlCarrito.length; i++) {
         var button = botonesAgregarAlCarrito[i];
         button.addEventListener('click', agregarAlCarritoClicked);
     }
 
-    // Agregamos funcionalidad al botón comprar
+    // Agregamos funcionalidad al botón "Pagar"
     document.getElementsByClassName('btn-pagar')[0].addEventListener('click', pagarClicked);
 }
 
@@ -167,9 +167,78 @@ function actualizarTotalCarrito() {
     document.getElementsByClassName('carrito-precio-total')[0].innerText = '$' + total.toLocaleString("es") + ",00";
 }
 
-// Función para eliminar todos los elementos del carrito y ocultarlo
+// Función para manejar el click en el botón "Pagar"
 function pagarClicked() {
-    alert("Gracias por la compra");
+    // Obtener los detalles de los productos del carrito y el precio total
+    var productos = obtenerProductosDelCarrito();
+    var precioTotal = calcularPrecioTotal();
+
+    // Objeto con los datos a enviar al servidor
+    var datosCompra = {
+        productos: productos,
+        precioTotal: precioTotal
+    };
+
+    // Hacer la solicitud al servidor usando fetch
+    fetch('guardarcompras.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datosCompra)
+    })
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('Error al guardar los productos');
+        }
+        return response.json();
+    })
+    .then(function(data) {
+        // Manejar la respuesta del servidor si es necesario
+        console.log('Productos guardados correctamente:', data);
+        // Aquí podrías redirigir a una página de confirmación o realizar otras acciones
+        alert('Compra realizada con éxito');
+        vaciarCarrito(); // Opcional: Vaciar el carrito después de realizar la compra
+    })
+    .catch(function(error) {
+        console.error('Error en la petición fetch:', error);
+        //alert('Hubo un error al procesar la compra');
+    });
+}
+
+// Función para obtener los productos del carrito
+function obtenerProductosDelCarrito() {
+    var productos = [];
+    var itemsCarrito = document.querySelectorAll('.carrito-item');
+
+    itemsCarrito.forEach(function(item) {
+        var titulo = item.querySelector('.carrito-item-titulo').innerText;
+        var precioTexto = item.querySelector('.carrito-item-precio').innerText;
+        var precio = parseFloat(precioTexto.replace('$', '').replace(',', ''));
+        var cantidadItem = item.querySelector('.carrito-item-cantidad').value;
+        productos.push({ titulo: titulo, precio: precio, cantidad: cantidadItem });
+    });
+
+    return productos;
+}
+
+// Función para calcular el precio total
+function calcularPrecioTotal() {
+    var total = 0;
+    var itemsCarrito = document.querySelectorAll('.carrito-item');
+
+    itemsCarrito.forEach(function(item) {
+        var precioTexto = item.querySelector('.carrito-item-precio').innerText;
+        var precio = parseFloat(precioTexto.replace('$', '').replace(',', ''));
+        var cantidadItem = item.querySelector('.carrito-item-cantidad').value;
+        total += precio * cantidadItem;
+    });
+
+    return total;
+}
+
+// Función para vaciar el carrito después de realizar la compra (opcional)
+function vaciarCarrito() {
     var carritoItems = document.getElementsByClassName('carrito-items')[0];
     while (carritoItems.hasChildNodes()) {
         carritoItems.removeChild(carritoItems.firstChild);
@@ -182,8 +251,8 @@ function pagarClicked() {
 function agregarAlCarritoClicked(event) {
     var button = event.target;
     var item = button.parentElement;
-    var titulo = item.getElementsByClassName('titulo-item')[0].innerText;
-    var precio = item.getElementsByClassName('precio-item')[0].innerText;
+    var titulo = item.querySelector('.titulo-item').innerText;
+    var precio = item.querySelector('.precio-item').innerText;
 
     agregarItemAlCarrito(titulo, precio);
     hacerVisibleCarrito();

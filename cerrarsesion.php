@@ -1,7 +1,13 @@
 <?php
 session_start();
-session_unset();
+
+// Eliminar todas las variables de sesión
+$_SESSION = array();
+
+// Destruir la sesión
 session_destroy();
-header('Location: perfil.html');
+
+// Redirigir al usuario a index.html
+header('Location: index.html');
 exit();
 ?>

@@ -321,7 +321,7 @@
                                     <i class="far fa-image"></i>
                                 </button>
                             </div>
-                            <button type="button" class="boton-portada">
+                            <button id="btnCerrarSesion" type="button" class="boton-portada">
                                 <i class="far fa-image"></i> Cerrar sesión
                             </button>
                         </div>
@@ -341,6 +341,26 @@
             
                 <!-- Enlazar JavaScript -->
                 <script src="script.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Manejador de evento click para el botón de cerrar sesión
+                        document.getElementById('btnCerrarSesion').addEventListener('click', function() {
+                            // Petición al servidor para cerrar sesión
+                            fetch('cerrarsesion.php', {
+                                method: 'POST',
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Redirigir a index.html
+                                    window.location.href = 'index.html';
+                                } else {
+                                    console.error('Error al cerrar sesión');
+                                }
+                            })
+                            .catch(error => console.error('Error en la petición fetch:', error));
+                        });
+                    });
+                </script>
                
             
             
