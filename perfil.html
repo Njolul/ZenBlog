@@ -331,6 +331,49 @@
     content: "•"; /* Viñeta personalizada */
     margin-right: 5px; /* Espacio entre viñeta y texto */
 }
+
+/* Estilos para historial de mensajes */
+.historial-mensajes {
+    margin-bottom: 20px; /* Espacio entre la sección de historial y el siguiente contenido */
+}
+
+.lista-mensajes {
+    display: none; /* Ocultar la lista de mensajes por defecto */
+}
+
+.lista-mensajes.collapsed {
+    display: block; /* Mostrar la lista de mensajes cuando no tiene la clase 'collapsed' */
+    margin-top: 10px; /* Espacio entre el título y la lista de mensajes */
+}
+
+.lista-mensajes .mensaje {
+    margin-bottom: 15px; /* Espacio entre mensajes individuales */
+    padding: 10px;
+    border: 1px solid #ddd; /* Borde alrededor de cada mensaje */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Fondo de cada mensaje */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.lista-mensajes .mensaje p {
+    margin-bottom: 5px; /* Espacio entre elementos dentro del mensaje */
+}
+
+.lista-mensajes .mensaje ul {
+    margin-bottom: 5px;
+}
+
+.lista-mensajes .mensaje ul li {
+    list-style-type: none; /* Eliminar viñetas de la lista de elementos */
+    padding: 5px 0; /* Espacio entre elementos */
+}
+
+.lista-mensajes .mensaje ul li:before {
+    content: "•"; /* Viñeta personalizada */
+    margin-right: 5px; /* Espacio entre viñeta y texto */
+}
+
+
             
             /* adactacion a dispositivos */
             @media (max-width: 750px) {
@@ -396,14 +439,29 @@
                                 <div id="listaCompras" class="lista-compras">
                                     <!-- Aquí se añadirán dinámicamente las compras -->
                                 </div>
+                                
+                            
                             </div>
+                            <br>
+                            <br>
+                            <div class="historial-mensajes">
+                                <h3>
+                                    <span id="toggleMensajes" class="toggle-arrow">▶</span>
+                                    Historial de Mensajes
+                                </h3>
+                                <div id="listaMensajes" class="lista-mensajes">
+                                    <!-- Aquí se añadirán dinámicamente los mensajes -->
+                                </div>
+                            </div>
+                            
 
                         </div>
                         
                     </div>
+                    
                 </section>
             
-                
+                <script src="historialmensajes.js"></script>
                 <script src="historialcompras.js"></script>
             
                 <!-- Enlazar JavaScript -->

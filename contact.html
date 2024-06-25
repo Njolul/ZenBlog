@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ZenBlog Bootstrap Template - Contact</title>
+  <title>FrikiStore - Contact</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -57,7 +57,7 @@
             <ul>
               <!--<li><a href="search-result.html">Search Result</a></li>
               <li><a href="#">Drop Down 1</a></li>-->
-              <li><a href="category copy 4.html">merch</a></li>
+              <li><a href="category copy 4.html">Merch</a></li>
               <li><a href="category.html">Cartas</a></li>
               <li><a href="category copy.html">Figuras</a></li>
               <li><a href="category copy 2.html">Juegos y Juegos de mesa</a></li>
@@ -98,7 +98,7 @@
 
         <div class="row">
           <div class="col-lg-12 text-center mb-5">
-            <h1 class="page-title">Contact us</h1>
+            <h1 class="page-title">Contactanos</h1>
           </div>
         </div>
 
@@ -107,7 +107,7 @@
           <div class="col-md-4">
             <div class="info-item">
               <i class="bi bi-geo-alt"></i>
-              <h3>Address</h3>
+              <h3>Direccion</h3>
               <address>Centenario 1879, 8370923 Santiago, Región Metropolitana</address>
             </div>
           </div><!-- End Info Item -->
@@ -115,7 +115,7 @@
           <div class="col-md-4">
             <div class="info-item info-item-borders">
               <i class="bi bi-phone"></i>
-              <h3>Phone Number</h3>
+              <h3>Numero</h3>
               <p><a href="tel:+155895548855">+(2) 2713 5510</a></p>
             </div>
           </div><!-- End Info Item -->
@@ -131,33 +131,33 @@
         </div>
 
         <div class="form mt-5">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-            <div class="row">
-              <div class="form-group col-md-6">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+          <form id="contact-form" action="guardarmensajes.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                  <div class="form-group col-md-6">
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                      <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  </div>
               </div>
-              <div class="form-group col-md-6">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+              <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
               </div>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-            </div>
-            <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
-            </div>
-            <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="form-group">
+                  <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Enviar</button></div>
           </form>
-        </div><!-- End Contact Form -->
-
+      </div>
+        
       </div>
     </section>
-
+    <script src="guardarmensajes.js"></script>
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->

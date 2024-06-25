@@ -52,6 +52,30 @@ if (isset($_SESSION['usuario_id'])) {
         $response['historialCompras'] = $historialCompras;
 
         $stmtCompras->close();
+        
+        // Consultar mensajes del usuario utilizando el ID de sesión
+        $queryMensajes = "SELECT name, email, subject, message FROM contact_messages WHERE usuario_id = ?";
+        $stmtMensajes = $conexion->prepare($queryMensajes);
+        $stmtMensajes->bind_param("i", $idUsuario);
+        $stmtMensajes->execute();
+        $resultadoMensajes = $stmtMensajes->get_result();
+
+        $contactMessages = [];
+
+        // Obtener todos los mensajes del usuario
+        while ($filaMensaje = $resultadoMensajes->fetch_assoc()) {
+            $contactMessages[] = [
+                'name' => $filaMensaje['name'],
+                'email' => $filaMensaje['email'],
+                'subject' => $filaMensaje['subject'],
+                'message' => $filaMensaje['message']
+            ];
+        }
+
+        // Agregar mensajes a la respuesta JSON
+        $response['contactMessages'] = $contactMessages;
+
+        $stmtMensajes->close();
     } else {
         $response['error'] = "No se encontraron datos de usuario";
     }
