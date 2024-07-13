@@ -97,7 +97,7 @@
     <body>
       <section class="form-register">
         <h4>Registrarse</h4>
-        <form id="registration-form" method="post" action="registrar_usuario.php">
+        <form id="registration-form" method="post" action="php_lul/registrar_usuario.php">
           <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
           <div id="nombres-error" class="error-message"></div>
           <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
@@ -302,7 +302,7 @@ if ($('#nombres-error').text() !== "" || $('#apellidos-error').text() !== "" || 
             // Enviar datos usando AJAX
             $.ajax({
       type: 'POST',
-      url: 'registrar_usuario.php', // Archivo PHP que manejará la inserción
+      url: 'php_lul/registrar_usuario.php', // Archivo PHP que manejará la inserción
       data: {
         nombres: nombres,
         apellidos: apellidos,

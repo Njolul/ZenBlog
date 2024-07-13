@@ -461,17 +461,17 @@
                     
                 </section>
             
-                <script src="historialmensajes.js"></script>
-                <script src="historialcompras.js"></script>
+                <script src="js_lul/historialcompras.js"></script>
+                <script src="js_lul/historialmensajes.js"></script>
             
                 <!-- Enlazar JavaScript -->
-                <script src="script.js"></script>
+                <script src="js_lul/script.js"></script>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         // Manejador de evento click para el botón de cerrar sesión
                         document.getElementById('btnCerrarSesion').addEventListener('click', function() {
                             // Petición al servidor para cerrar sesión
-                            fetch('cerrarsesion.php', {
+                            fetch('php_lul/cerrarsesion.php', {
                                 method: 'POST',
                             })
                             .then(response => {

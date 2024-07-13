@@ -99,7 +99,7 @@
 <body>
   <section class="form-register">
     <h4>Iniciar sesión</h4>
-    <form id="login-form" method="post" action="login_usuario.php">
+    <form id="login-form" method="post" action="php_lul/login_usuario.php">
       <input class="controls" type="email" name="correo" id="correo" placeholder="Ingrese su Correo">
       <div id="correo-error" class="error-message"></div>
       <input class="controls" type="password" name="contrasena" id="contrasena" placeholder="Ingrese su Contraseña">
@@ -142,7 +142,7 @@
       console.log('Enviando solicitud AJAX:', formData);
 $.ajax({
   type: 'POST',
-  url: 'login_usuario.php',
+  url: 'php_lul/login_usuario.php',
   data: formData,
   dataType: 'json',
   success: function(response) {

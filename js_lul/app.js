@@ -180,7 +180,7 @@ function pagarClicked() {
     };
 
     // Hacer la solicitud al servidor usando fetch
-    fetch('guardarcompras.php', {
+    fetch('php_lul/guardarcompras.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

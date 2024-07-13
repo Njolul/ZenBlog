@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function cargarHistorialCompras() {
-    fetch('perfil.php')
+    fetch('php_lul/perfil.php')
         .then(function(response) {
             if (!response.ok) {
                 throw new Error('Error al obtener el perfil del usuario');

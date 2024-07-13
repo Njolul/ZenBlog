@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Hacer la solicitud al servidor usando fetch
-        fetch('guardarmensajes.php', {
+        fetch('php_lul/guardarmensajes.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
