@@ -926,7 +926,7 @@ section {
 # Comments
 --------------------------------------------------------------*/
 .comment {
-  /* Font not working in <textarea> for this version of bs */
+  font-family: 'YourFontFamily', sans-serif;/* Font not working in <textarea> for this version of bs */
 }
 
 .comment .avatar {

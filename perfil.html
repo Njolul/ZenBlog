@@ -174,6 +174,24 @@
                 margin-right: 1rem;
             }
             
+
+            .seccion-perfil-usuario .perfil-usuario-portada .btnAgregarTarjeta {
+    position: absolute;
+    top: 4rem; /* Ajusta la posición desde el borde superior */
+    right: 4rem; /* Ajusta la posición desde el borde derecho */
+    padding: 12px 25px; /* Ajusta el padding para el tamaño del botón */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    color: #fff; /* Color del texto */
+    border: 0; /* Sin borde */
+    border-radius: 8px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor al pasar por encima */
+}
+
+.seccion-perfil-usuario .perfil-usuario-portada .btnAgregarTarjeta i {
+    margin-right: 1rem; /* Espacio entre el icono y el texto */
+}
+
+
             .seccion-perfil-usuario .perfil-usuario-avatar {
                 display: flex;
                 width: 180px;
@@ -418,7 +436,11 @@
                             <button id="btnCerrarSesion" type="button" class="boton-portada">
                                 <i class="fas fa-sign-out-alt"></i> Cerrar sesión
                             </button>
-                        </div>
+                            <button id="btnAgregarTarjeta" type="button" class="btnAgregarTarjeta">
+                                <i class="fas fa-credit-card"></i> Agregar Tarjeta
+                            </button>
+                            </div>
+                            
                     </div>
                     <div class="perfil-usuario-body">
                         <div class="perfil-usuario-bio">

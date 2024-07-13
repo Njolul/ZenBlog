@@ -33,6 +33,7 @@ CREATE TABLE contact_messages (
 CREATE TABLE tarjeta_cliente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
+    rut VARCHAR(20) NOT NULL,
     card_number VARCHAR(20) NOT NULL,
     expiry_date VARCHAR(10) NOT NULL,
     cvv VARCHAR(4) NOT NULL,
