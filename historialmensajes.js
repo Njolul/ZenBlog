@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function cargarMensajes() {
-    fetch('php_lul/perfil.php')
+    fetch('perfil.php')
         .then(function(response) {
             if (!response.ok) {
                 throw new Error('Error al obtener el perfil del usuario');

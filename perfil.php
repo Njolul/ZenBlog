@@ -1,6 +1,10 @@
 <?php
 session_start();
-include 'conexion.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include 'php_lul/conexion.php';
 
 $response = ['session_active' => false];
 
@@ -14,6 +18,9 @@ if (isset($_SESSION['usuario_id'])) {
     // Consultar datos del usuario utilizando el ID de sesión
     $queryUsuario = "SELECT nombres, correo FROM usuarios WHERE id = ?";
     $stmtUsuario = $conexion->prepare($queryUsuario);
+    if ($stmtUsuario === false) {
+        die(json_encode(['error' => 'Error preparando la consulta: ' . $conexion->error]));
+    }
     $stmtUsuario->bind_param("i", $idUsuario);
     $stmtUsuario->execute();
     $resultadoUsuario = $stmtUsuario->get_result();
@@ -21,16 +28,15 @@ if (isset($_SESSION['usuario_id'])) {
     if ($resultadoUsuario->num_rows > 0) {
         // Obtener datos del usuario
         $filaUsuario = $resultadoUsuario->fetch_assoc();
-        $nombreUsuario = $filaUsuario['nombres'];
-        $correoUsuario = $filaUsuario['correo'];
-
-        // Combinar los datos del usuario con la respuesta JSON
-        $response['nombreUsuario'] = $nombreUsuario;
-        $response['correoUsuario'] = $correoUsuario;
+        $response['nombreUsuario'] = $filaUsuario['nombres'];
+        $response['correoUsuario'] = $filaUsuario['correo'];
 
         // Consultar historial de compras del usuario
         $queryCompras = "SELECT productos, precio, fecha FROM compras WHERE usuario_id = ?";
         $stmtCompras = $conexion->prepare($queryCompras);
+        if ($stmtCompras === false) {
+            die(json_encode(['error' => 'Error preparando la consulta de compras: ' . $conexion->error]));
+        }
         $stmtCompras->bind_param("i", $idUsuario);
         $stmtCompras->execute();
         $resultadoCompras = $stmtCompras->get_result();
@@ -52,10 +58,13 @@ if (isset($_SESSION['usuario_id'])) {
         $response['historialCompras'] = $historialCompras;
 
         $stmtCompras->close();
-        
+
         // Consultar mensajes del usuario utilizando el ID de sesión
         $queryMensajes = "SELECT name, email, subject, message FROM contact_messages WHERE usuario_id = ?";
         $stmtMensajes = $conexion->prepare($queryMensajes);
+        if ($stmtMensajes === false) {
+            die(json_encode(['error' => 'Error preparando la consulta de mensajes: ' . $conexion->error]));
+        }
         $stmtMensajes->bind_param("i", $idUsuario);
         $stmtMensajes->execute();
         $resultadoMensajes = $stmtMensajes->get_result();

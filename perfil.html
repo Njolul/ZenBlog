@@ -177,8 +177,8 @@
 
             .seccion-perfil-usuario .perfil-usuario-portada .btnAgregarTarjeta {
     position: absolute;
-    top: 4rem; /* Ajusta la posición desde el borde superior */
-    right: 4rem; /* Ajusta la posición desde el borde derecho */
+    top: 5rem; /* Ajusta la posición desde el borde superior */
+    right: 0.5rem; /* Ajusta la posición desde el borde derecho */
     padding: 12px 25px; /* Ajusta el padding para el tamaño del botón */
     background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
     color: #fff; /* Color del texto */
@@ -483,17 +483,17 @@
                     
                 </section>
             
-                <script src="js_lul/historialcompras.js"></script>
-                <script src="js_lul/historialmensajes.js"></script>
-            
+                <script src="historialcompras.js"></script>
+                <script src="historialmensajes.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <!-- Enlazar JavaScript -->
-                <script src="js_lul/script.js"></script>
+                <script src="script.js"></script>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         // Manejador de evento click para el botón de cerrar sesión
                         document.getElementById('btnCerrarSesion').addEventListener('click', function() {
                             // Petición al servidor para cerrar sesión
-                            fetch('php_lul/cerrarsesion.php', {
+                            fetch('cerrarsesion.php', {
                                 method: 'POST',
                             })
                             .then(response => {
@@ -509,6 +509,13 @@
                     });
                 </script>
                
+               <script>
+                $(document).ready(function() {
+                    $('#btnAgregarTarjeta').click(function() {
+                        window.location.href = 'guardartarjeta.html';
+                    });
+                });
+                </script>
             
             
             <div class="mis-redes" style="display: block;position: fixed;bottom: 1rem;left: 1rem; opacity: 0.5; z-index: 1000;">

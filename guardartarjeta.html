@@ -99,7 +99,7 @@
 <body>
   <section class="form-register">
     <h4>Registrar Tarjeta</h4>
-    <form id="card-form" method="post">
+    <form id="card-form" method="post" action="php_lul/guardartarjeta.php">
         <input class="controls" type="text" name="rut" id="rut" placeholder="Ingrese su RUT">
         <div id="rut-error" class="error-message"></div>
         <input class="controls" type="text" name="card_number" id="card_number" placeholder="Ingrese el número de tarjeta">
@@ -117,66 +117,105 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function() {
+ $(document).ready(function() {
     $('#card-form').submit(function(event) {
-      event.preventDefault();
-      var formData = $(this).serialize();
-      var errores = {};
+        event.preventDefault();
+        var formData = $(this).serialize();
+        var errores = {};
 
-      // Verificar campos vacíos
-      if ($('#rut').val() == '') {
-        errores.rut = 'Por favor ingrese su RUT';
-      }
-      if ($('#card_number').val() == '') {
-        errores.card_number = 'Por favor ingrese el número de tarjeta';
-      }
-      if ($('#expiry_date').val() == '') {
-        errores.expiry_date = 'Por favor ingrese la fecha de expiración';
-      }
-      if ($('#cvv').val() == '') {
-        errores.cvv = 'Por favor ingrese el CVV';
-      }
+        // Función de validación del RUT
+        function validarRut(rut) {
+            var rutRegex = /^\d{8}-[0-9]$/;
+            return rutRegex.test(rut);
+        }
 
-      // Mostrar errores
-      if (Object.keys(errores).length > 0) {
-        $.each(errores, function(field, message) {
-          $('#' + field + '-error').text(message);
-        });
-      } else {
-        // Enviar formulario si no hay errores
-        console.log('Enviando solicitud AJAX:', formData);
-        $.ajax({
-          type: 'POST',
-          url: 'php_lul/guardar_tarjeta.php',
-          data: formData,
-          dataType: 'json',
-          success: function(response) {
-            console.log('Respuesta del servidor:', response);
-            if (response.success) {
-              console.log('Tarjeta registrada exitosamente');
-              $('#success-label').text(response.message).show();
-              $('#card-form')[0].reset();
-              // Redirigir a perfil.html después de 2 segundos
-              setTimeout(function() {
-                window.location.href = 'perfil.html';
-              }, 2000); // 2 segundos de espera antes de redirigir
-            } else {
-              console.log('Errores:', response.errors);
-              // Mostrar errores del servidor
-              $.each(response.errors, function(index, error) {
-                $('#' + error.field + '-error').text(error.message);
-              });
-            }
-          },
-          error: function(xhr, status, error) {
-            console.log('Error del servidor:', error);
-            // Mostrar mensaje de error del servidor
-            $('#error-server').text('Error del servidor: ' + error);
-          }
-        });
-      }
+        // Función de validación del número de tarjeta
+        function validarCardNumber(cardNumber) {
+            var cardNumberRegex = /^\d{16}$/;
+            return cardNumberRegex.test(cardNumber);
+        }
+
+        // Función de validación de la fecha de expiración
+        function validarExpiryDate(expiryDate) {
+            var expiryDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+            return expiryDateRegex.test(expiryDate);
+        }
+
+        // Función de validación del CVV
+        function validarCvv(cvv) {
+            var cvvRegex = /^[0-9]{3,4}$/;
+            return cvvRegex.test(cvv);
+        }
+
+        // Verificar campos vacíos y formato del RUT
+        if ($('#rut').val() == '') {
+            errores.rut = 'Por favor ingrese su RUT';
+        } else if (!validarRut($('#rut').val())) {
+            errores.rut = 'El RUT debe tener el formato 12345678-9';
+        }
+
+        // Verificar campos vacíos y formato del número de tarjeta
+        if ($('#card_number').val() == '') {
+            errores.card_number = 'Por favor ingrese el número de tarjeta';
+        } else if (!validarCardNumber($('#card_number').val())) {
+            errores.card_number = 'El número de tarjeta debe tener 16 dígitos';
+        }
+
+        // Verificar campos vacíos y formato de la fecha de expiración
+        if ($('#expiry_date').val() == '') {
+            errores.expiry_date = 'Por favor ingrese la fecha de expiración';
+        } else if (!validarExpiryDate($('#expiry_date').val())) {
+            errores.expiry_date = 'La fecha de expiración debe tener el formato MM/YY';
+        }
+
+        // Verificar campos vacíos y formato del CVV
+        if ($('#cvv').val() == '') {
+            errores.cvv = 'Por favor ingrese el CVV';
+        } else if (!validarCvv($('#cvv').val())) {
+            errores.cvv = 'El CVV debe tener 3 o 4 dígitos';
+        }
+
+        // Mostrar errores
+        if (Object.keys(errores).length > 0) {
+            $.each(errores, function(field, message) {
+                $('#' + field + '-error').text(message);
+            });
+        } else {
+            // Enviar formulario si no hay errores
+            console.log('Enviando solicitud AJAX:', formData);
+            $.ajax({
+                type: 'POST',
+                url: 'php_lul/guardartarjeta.php',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Respuesta del servidor:', response);
+                    if (response.success) {
+                        console.log('Tarjeta registrada exitosamente');
+                        $('#success-label').text(response.message).show();
+                        $('#card-form')[0].reset();
+                        // Redirigir a perfil.html después de 2 segundos
+                        setTimeout(function() {
+                            window.location.href = 'perfil.html';
+                        }, 2000); // 2 segundos de espera antes de redirigir
+                    } else {
+                        console.log('Errores:', response.errors);
+                        // Mostrar errores del servidor
+                        $.each(response.errors, function(index, error) {
+                            $('#' + error.field + '-error').text(error.message);
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error del servidor:', error);
+                    // Mostrar mensaje de error del servidor
+                    $('#error-server').text('Error del servidor: ' + error);
+                }
+            });
+        }
     });
-  });
+});
+
 </script>
 
 

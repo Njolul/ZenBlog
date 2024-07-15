@@ -2,53 +2,120 @@
 var carritoVisible = false;
 
 // Esperamos a que todos los elementos de la página carguen para ejecutar el script
-if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready)
-} else {
-    ready();
-}
-
-function ready() {
-    // Agregremos funcionalidad a los botones eliminar del carrito
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregamos funcionalidad a los botones eliminar del carrito
     var botonesEliminarItem = document.getElementsByClassName('btn-eliminar');
     for (var i = 0; i < botonesEliminarItem.length; i++) {
-        var button = botonesEliminarItem[i];
-        button.addEventListener('click', eliminarItemCarrito);
+        botonesEliminarItem[i].addEventListener('click', eliminarItemCarrito);
     }
 
     // Agrego funcionalidad al boton sumar cantidad
     var botonesSumarCantidad = document.getElementsByClassName('sumar-cantidad');
     for (var i = 0; i < botonesSumarCantidad.length; i++) {
-        var button = botonesSumarCantidad[i];
-        button.addEventListener('click', sumarCantidad);
+        botonesSumarCantidad[i].addEventListener('click', sumarCantidad);
     }
 
-    // Agrego funcionalidad al buton restar cantidad
+    // Agrego funcionalidad al botón restar cantidad
     var botonesRestarCantidad = document.getElementsByClassName('restar-cantidad');
     for (var i = 0; i < botonesRestarCantidad.length; i++) {
-        var button = botonesRestarCantidad[i];
-        button.addEventListener('click', restarCantidad);
+        botonesRestarCantidad[i].addEventListener('click', restarCantidad);
     }
 
-    // Agregamos funcionalidad al boton "Agregar al carrito"
+    // Agregamos funcionalidad al botón "Agregar al carrito"
     var botonesAgregarAlCarrito = document.getElementsByClassName('boton-item');
     for (var i = 0; i < botonesAgregarAlCarrito.length; i++) {
-        var button = botonesAgregarAlCarrito[i];
-        button.addEventListener('click', agregarAlCarritoClicked);
+        botonesAgregarAlCarrito[i].addEventListener('click', agregarAlCarritoClicked);
     }
 
     // Agregamos funcionalidad al botón "Pagar"
-    document.getElementsByClassName('btn-pagar')[0].addEventListener('click', pagarClicked);
+    var botonPagar = document.querySelector('.btn-pagar');
+    if (botonPagar) {
+        botonPagar.addEventListener('click', function() {
+            verificarTarjeta();
+        });
+    } else {
+        console.error('Elemento "btn-pagar" no encontrado en el DOM');
+    }
+});
+
+// Función para verificar la tarjeta del usuario y proceder con la compra
+function verificarTarjeta() {
+    fetch('php_lul/verificar_tarjeta.php', {
+      method: 'GET', // o 'POST' dependiendo de tu implementación
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log('Respuesta:', response);
+      if (!response.ok) {
+        throw new Error('Error al verificar la tarjeta');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Datos:', data);
+      if (data.success && data.tarjetaRegistrada) {
+        console.log('Tarjeta registrada, realizando la compra');
+        realizarCompra();
+      } else {
+        console.log('Tarjeta no registrada, redirigiendo a guardartarjeta.html');
+        window.location.href = 'guardartarjeta.html'; // O cualquier URL de tu formulario
+      }
+    })
+    .catch(error => {
+      console.error('Error al verificar tarjeta:', error);
+      // Manejar errores como falta de conexión o problemas del servidor
+    });
+  }
+
+// Función para realizar la compra
+function realizarCompra() {
+    // Obtener los detalles de los productos del carrito y el precio total
+    var productos = obtenerProductosDelCarrito();
+    var precioTotal = calcularPrecioTotal();
+
+    // Objeto con los datos a enviar al servidor
+    var datosCompra = {
+        productos: productos,
+        precioTotal: precioTotal
+    };
+
+    // Hacer la solicitud al servidor usando fetch
+    fetch('php_lul/guardarcompras.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datosCompra)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al guardar los productos');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Manejar la respuesta del servidor si es necesario
+        console.log('Productos guardados correctamente:', data);
+        // Aquí podrías redirigir a una página de confirmación o realizar otras acciones
+        alert('Compra realizada con éxito');
+        vaciarCarrito(); // Opcional: Vaciar el carrito después de realizar la compra
+    })
+    .catch(error => {
+        console.error('Error en la petición fetch:', error);
+        
+    });
 }
 
 // Función para hacer visible el carrito
 function hacerVisibleCarrito() {
     carritoVisible = true;
-    var carrito = document.getElementsByClassName('carrito')[0];
+    var carrito = document.querySelector('.carrito');
     carrito.style.marginRight = '0';
     carrito.style.opacity = '1';
 
-    var items = document.getElementsByClassName('contenedor-items')[0];
+    var items = document.querySelector('.contenedor-items');
     items.style.width = '60%';
 }
 
@@ -57,12 +124,12 @@ function agregarItemAlCarrito(titulo, precio) {
     var item = document.createElement('div');
     item.classList.add('item');
 
-    var itemsCarrito = document.getElementsByClassName('carrito-items')[0];
+    var itemsCarrito = document.querySelector('.carrito-items');
 
     // Controlamos que el item que intenta ingresar no se encuentre en el carrito
-    var nombresItemsCarrito = itemsCarrito.getElementsByClassName('carrito-item-titulo');
+    var nombresItemsCarrito = itemsCarrito.querySelectorAll('.carrito-item-titulo');
     for (var i = 0; i < nombresItemsCarrito.length; i++) {
-        if (nombresItemsCarrito[i].innerText == titulo) {
+        if (nombresItemsCarrito[i].innerText === titulo) {
             alert("El item ya se encuentra en el carrito");
             return;
         }
@@ -86,18 +153,16 @@ function agregarItemAlCarrito(titulo, precio) {
     `;
 
     item.innerHTML = itemCarritoContenido;
-    itemsCarrito.append(item);
+    itemsCarrito.appendChild(item);
 
     // Agregamos la funcionalidad eliminar al nuevo item
-    item.getElementsByClassName('btn-eliminar')[0].addEventListener('click', eliminarItemCarrito);
+    item.querySelector('.btn-eliminar').addEventListener('click', eliminarItemCarrito);
 
     // Agregamos la funcionalidad restar cantidad del nuevo item
-    var botonRestarCantidad = item.getElementsByClassName('restar-cantidad')[0];
-    botonRestarCantidad.addEventListener('click', restarCantidad);
+    item.querySelector('.restar-cantidad').addEventListener('click', restarCantidad);
 
     // Agregamos la funcionalidad sumar cantidad del nuevo item
-    var botonSumarCantidad = item.getElementsByClassName('sumar-cantidad')[0];
-    botonSumarCantidad.addEventListener('click', sumarCantidad);
+    item.querySelector('.sumar-cantidad').addEventListener('click', sumarCantidad);
 
     // Actualizamos total
     actualizarTotalCarrito();
@@ -107,9 +172,9 @@ function agregarItemAlCarrito(titulo, precio) {
 function sumarCantidad(event) {
     var buttonClicked = event.target;
     var selector = buttonClicked.parentElement;
-    var cantidadActual = parseInt(selector.getElementsByClassName('carrito-item-cantidad')[0].value);
+    var cantidadActual = parseInt(selector.querySelector('.carrito-item-cantidad').value);
     cantidadActual++;
-    selector.getElementsByClassName('carrito-item-cantidad')[0].value = cantidadActual;
+    selector.querySelector('.carrito-item-cantidad').value = cantidadActual;
     actualizarTotalCarrito();
 }
 
@@ -117,10 +182,10 @@ function sumarCantidad(event) {
 function restarCantidad(event) {
     var buttonClicked = event.target;
     var selector = buttonClicked.parentElement;
-    var cantidadActual = parseInt(selector.getElementsByClassName('carrito-item-cantidad')[0].value);
+    var cantidadActual = parseInt(selector.querySelector('.carrito-item-cantidad').value);
     cantidadActual--;
     if (cantidadActual >= 1) {
-        selector.getElementsByClassName('carrito-item-cantidad')[0].value = cantidadActual;
+        selector.querySelector('.carrito-item-cantidad').value = cantidadActual;
         actualizarTotalCarrito();
     }
 }
@@ -128,82 +193,39 @@ function restarCantidad(event) {
 // Función para eliminar el item seleccionado del carrito
 function eliminarItemCarrito(event) {
     var buttonClicked = event.target;
-    buttonClicked.parentElement.parentElement.remove();
+    buttonClicked.closest('.carrito-item').remove();
     actualizarTotalCarrito();
     ocultarCarrito();
 }
 
 // Función para controlar si hay elementos en el carrito. Si no hay, oculta el carrito.
 function ocultarCarrito() {
-    var carritoItems = document.getElementsByClassName('carrito-items')[0];
-    if (carritoItems.childElementCount == 0) {
-        var carrito = document.getElementsByClassName('carrito')[0];
+    var carritoItems = document.querySelector('.carrito-items');
+    if (carritoItems.children.length === 0) {
+        var carrito = document.querySelector('.carrito');
         carrito.style.marginRight = '-100%';
         carrito.style.opacity = '0';
         carritoVisible = false;
 
-        var items = document.getElementsByClassName('contenedor-items')[0];
+        var items = document.querySelector('.contenedor-items');
         items.style.width = '100%';
     }
 }
 
 // Función para actualizar el total del carrito
 function actualizarTotalCarrito() {
-    var carritoContenedor = document.getElementsByClassName('carrito')[0];
-    var carritoItems = carritoContenedor.getElementsByClassName('carrito-item');
+    var carritoItems = document.querySelectorAll('.carrito-item');
     var total = 0;
 
-    for (var i = 0; i < carritoItems.length; i++) {
-        var item = carritoItems[i];
-        var precioElemento = item.getElementsByClassName('carrito-item-precio')[0];
-        var precio = parseFloat(precioElemento.innerText.replace('$', '').replace('.', ''));
-        var cantidadItem = item.getElementsByClassName('carrito-item-cantidad')[0];
-        var cantidad = parseInt(cantidadItem.value);
+    carritoItems.forEach(function(item) {
+        var precio = parseFloat(item.querySelector('.carrito-item-precio').innerText.replace('$', '').replace(',', ''));
+        var cantidad = parseInt(item.querySelector('.carrito-item-cantidad').value);
         total += precio * cantidad;
-    }
+    });
 
     total = Math.round(total * 100) / 100;
 
-    document.getElementsByClassName('carrito-precio-total')[0].innerText = '$' + total.toLocaleString("es") + ",00";
-}
-
-// Función para manejar el click en el botón "Pagar"
-function pagarClicked() {
-    // Obtener los detalles de los productos del carrito y el precio total
-    var productos = obtenerProductosDelCarrito();
-    var precioTotal = calcularPrecioTotal();
-
-    // Objeto con los datos a enviar al servidor
-    var datosCompra = {
-        productos: productos,
-        precioTotal: precioTotal
-    };
-
-    // Hacer la solicitud al servidor usando fetch
-    fetch('php_lul/guardarcompras.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datosCompra)
-    })
-    .then(function(response) {
-        if (!response.ok) {
-            throw new Error('Error al guardar los productos');
-        }
-        return response.json();
-    })
-    .then(function(data) {
-        // Manejar la respuesta del servidor si es necesario
-        console.log('Productos guardados correctamente:', data);
-        // Aquí podrías redirigir a una página de confirmación o realizar otras acciones
-        alert('Compra realizada con éxito');
-        vaciarCarrito(); // Opcional: Vaciar el carrito después de realizar la compra
-    })
-    .catch(function(error) {
-        console.error('Error en la petición fetch:', error);
-        //alert('Hubo un error al procesar la compra');
-    });
+    document.querySelector('.carrito-precio-total').innerText = '$' + total.toLocaleString("es") + ",00";
 }
 
 // Función para obtener los productos del carrito
@@ -213,10 +235,9 @@ function obtenerProductosDelCarrito() {
 
     itemsCarrito.forEach(function(item) {
         var titulo = item.querySelector('.carrito-item-titulo').innerText;
-        var precioTexto = item.querySelector('.carrito-item-precio').innerText;
-        var precio = parseFloat(precioTexto.replace('$', '').replace(',', ''));
-        var cantidadItem = item.querySelector('.carrito-item-cantidad').value;
-        productos.push({ titulo: titulo, precio: precio, cantidad: cantidadItem });
+        var precio = parseFloat(item.querySelector('.carrito-item-precio').innerText.replace('$', '').replace(',', ''));
+        var cantidad = parseInt(item.querySelector('.carrito-item-cantidad').value);
+        productos.push({ titulo: titulo, precio: precio, cantidad: cantidad });
     });
 
     return productos;
@@ -228,10 +249,9 @@ function calcularPrecioTotal() {
     var itemsCarrito = document.querySelectorAll('.carrito-item');
 
     itemsCarrito.forEach(function(item) {
-        var precioTexto = item.querySelector('.carrito-item-precio').innerText;
-        var precio = parseFloat(precioTexto.replace('$', '').replace(',', ''));
-        var cantidadItem = item.querySelector('.carrito-item-cantidad').value;
-        total += precio * cantidadItem;
+        var precio = parseFloat(item.querySelector('.carrito-item-precio').innerText.replace('$', '').replace(',', ''));
+        var cantidad = parseInt(item.querySelector('.carrito-item-cantidad').value);
+        total += precio * cantidad;
     });
 
     return total;
@@ -239,8 +259,8 @@ function calcularPrecioTotal() {
 
 // Función para vaciar el carrito después de realizar la compra (opcional)
 function vaciarCarrito() {
-    var carritoItems = document.getElementsByClassName('carrito-items')[0];
-    while (carritoItems.hasChildNodes()) {
+    var carritoItems = document.querySelector('.carrito-items');
+    while (carritoItems.firstChild) {
         carritoItems.removeChild(carritoItems.firstChild);
     }
     actualizarTotalCarrito();
@@ -250,7 +270,7 @@ function vaciarCarrito() {
 // Función para controlar el click en el botón "Agregar al carrito"
 function agregarAlCarritoClicked(event) {
     var button = event.target;
-    var item = button.parentElement;
+    var item = button.closest('.item');
     var titulo = item.querySelector('.titulo-item').innerText;
     var precio = item.querySelector('.precio-item').innerText;
 
