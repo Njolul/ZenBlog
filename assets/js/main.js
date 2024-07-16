@@ -1,10 +1,10 @@
 /**
-* Template Name: ZenBlog
-* Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
-* Updated: Mar 17 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https:///bootstrapmade.com/license/
-*/
+ * Template Name: ZenBlog
+ * Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
+ * Updated: Mar 17 2024 with Bootstrap v5.3.3
+ * Author: BootstrapMade.com
+ * License: https:///bootstrapmade.com/license/
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
   "use strict";
@@ -22,35 +22,31 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Mobile nav toggle
    */
+  const mobileNavToggleButton = document.querySelector('.mobile-nav-toggle');
 
-  const mobileNavToogleButton = document.querySelector('.mobile-nav-toggle');
-
-  if (mobileNavToogleButton) {
-    mobileNavToogleButton.addEventListener('click', function(event) {
+  if (mobileNavToggleButton) {
+    mobileNavToggleButton.addEventListener('click', function(event) {
       event.preventDefault();
-      mobileNavToogle();
+      mobileNavToggle();
     });
   }
 
-  function mobileNavToogle() {
+  function mobileNavToggle() {
     document.querySelector('body').classList.toggle('mobile-nav-active');
-    mobileNavToogleButton.classList.toggle('bi-list');
-    mobileNavToogleButton.classList.toggle('bi-x');
+    mobileNavToggleButton.classList.toggle('bi-list');
+    mobileNavToggleButton.classList.toggle('bi-x');
   }
 
   /**
    * Hide mobile nav on same-page/hash links
    */
-  document.querySelectorAll('#navbar a').forEach(navbarlink => {
-
-    if (!navbarlink.hash) return;
-
-    let section = document.querySelector(navbarlink.hash);
+  document.querySelectorAll('#navbar a').forEach(navbarLink => {
+    if (!navbarLink.hash) return;
+    let section = document.querySelector(navbarLink.hash);
     if (!section) return;
-
-    navbarlink.addEventListener('click', () => {
+    navbarLink.addEventListener('click', () => {
       if (document.querySelector('.mobile-nav-active')) {
-        mobileNavToogle();
+        mobileNavToggle();
       }
     });
   });
@@ -66,12 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         this.classList.toggle('active');
         this.nextElementSibling.classList.toggle('dropdown-active');
-
         let dropDownIndicator = this.querySelector('.dropdown-indicator');
-        dropDownIndicator.classList.toggle('bi-chevron-up');
-        dropDownIndicator.classList.toggle('bi-chevron-down');
+        if (dropDownIndicator) {
+          dropDownIndicator.classList.toggle('bi-chevron-up');
+          dropDownIndicator.classList.toggle('bi-chevron-down');
+        }
       }
-    })
+    });
   });
 
   /**
@@ -79,15 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   const scrollTop = document.querySelector('.scroll-top');
   if (scrollTop) {
-    const togglescrollTop = function() {
+    const toggleScrollTop = function() {
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
-    }
-    window.addEventListener('load', togglescrollTop);
-    document.addEventListener('scroll', togglescrollTop);
-    scrollTop.addEventListener('click', window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    }));
+    };
+    window.addEventListener('load', toggleScrollTop);
+    document.addEventListener('scroll', toggleScrollTop);
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   }
 
   /**
@@ -111,23 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
       nextEl: ".custom-swiper-button-next",
       prevEl: ".custom-swiper-button-prev",
     },
-  });
-
-  /**
-   * Open and close the search form.
-   */
-  const searchOpen = document.querySelector('.js-search-open');
-  const searchClose = document.querySelector('.js-search-close');
-  const searchWrap = document.querySelector(".js-search-form-wrap");
-
-  searchOpen.addEventListener("click", (e) => {
-    e.preventDefault();
-    searchWrap.classList.add("active");
-  });
-
-  searchClose.addEventListener("click", (e) => {
-    e.preventDefault();
-    searchWrap.classList.remove("active");
   });
 
   /**
